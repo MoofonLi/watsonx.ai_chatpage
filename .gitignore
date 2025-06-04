@@ -4,3 +4,4 @@
 wp
 config.py
 apikey.json
+__pycache__
