@@ -1,16 +1,16 @@
 import streamlit as st
-from chat_setting import Assistant
+from src.chat_setting import Chat
 
 def chat_test_page():
-    st.title("醫療聊天助手")
+    st.title("聊天助手")
     
     # Initialize chat components
     if 'messages' not in st.session_state:
         st.session_state.messages = []
     
-    # Initialize WatsonX Assistant
+    # Initialize
     if 'watsonx' not in st.session_state:
-        st.session_state.watsonx = Assistant(st.session_state.token_manager)
+        st.session_state.watsonx = Chat(st.session_state.token_manager)
     
     # Create chat interface
     chat_container = st.container()

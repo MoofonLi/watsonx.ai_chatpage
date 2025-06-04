@@ -4,7 +4,7 @@ import os
 import json
 
 
-class Assistant:
+class Chat:
     def __init__(self, token_manager=None):
         self.token_manager = token_manager
         
@@ -27,9 +27,6 @@ class Assistant:
             "Authorization": f"Bearer {token}"
         }
     
-    def find_relevant_context(self, query: str) -> str:
-        # API 已包含 RAG，返回空字符串
-        return ""
     
     def generate_response(self, context: str, user_message: str) -> str:
         """Generate response using WatsonX LLM API"""
@@ -37,7 +34,6 @@ class Assistant:
         if not headers:
             return None
         
-        # 簡單的請求結構，因為 API 已經包含 prompt
         payload = {
             "messages": [
                 {"role": "user", "content": user_message}
