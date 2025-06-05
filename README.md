@@ -1,5 +1,5 @@
 ```
-python3 -m venv .venv
+python3.11 -m venv .venv311
 ```
 ```
 source .venv/bin/activate
