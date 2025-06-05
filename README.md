@@ -11,3 +11,7 @@ pip install -r requirements.txt
 ```
 streamlit run app.py
 ```
+## 系統無法執行程式
+```
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
