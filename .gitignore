@@ -4,4 +4,5 @@
 wp
 config.py
 apikey.json
+CLAUDE.md
 __pycache__
