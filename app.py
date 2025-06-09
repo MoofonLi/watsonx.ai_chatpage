@@ -1,6 +1,6 @@
 import streamlit as st
-from src.chat_page import chat_test_page
-from src.token_manager import TokenManager
+from src.chat_page import chat_page
+from src.chat_setting import ChatSetting
 
 def main():
     st.set_page_config(
@@ -9,15 +9,16 @@ def main():
         initial_sidebar_state="expanded"
     )
 
-    # 初始化 Token Manager
-    if 'token_manager' not in st.session_state:
-        st.session_state.token_manager = TokenManager()
-        if not st.session_state.token_manager.get_token():
-            st.error("無法初始化 Token Manager")
+    # 初始化 WatsonX Client
+    if 'watsonx_client' not in st.session_state:
+        try:
+            st.session_state.chat_setting = ChatSetting()
+        except Exception as e:
+            st.error(f"無法初始化 WatsonX Client: {str(e)}")
             return
 
     # 呼叫頁面
-    chat_test_page()
+    chat_page()
 
 if __name__ == "__main__":
     main()
