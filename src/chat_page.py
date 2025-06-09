@@ -1,20 +1,15 @@
 import streamlit as st
-from src.chat_setting import Chat
 
-def chat_test_page():
+def chat_page():
     st.title("聊天助手")
-    
+
     # Initialize chat components
     if 'messages' not in st.session_state:
         st.session_state.messages = []
-    
-    # Initialize
-    if 'watsonx' not in st.session_state:
-        st.session_state.watsonx = Chat(st.session_state.token_manager)
-    
+
     # Create chat interface
     chat_container = st.container()
-    
+
     # Display conversation history
     with chat_container:
         for message in st.session_state.messages:
@@ -24,25 +19,30 @@ def chat_test_page():
     # Chat input
     if prompt := st.chat_input("輸入您的問題"):
         st.session_state.messages.append({"role": "user", "content": prompt})
-        
+
         with st.chat_message("user"):
             st.markdown(prompt)
-        
+
         with st.chat_message("assistant"):
-            with st.spinner("思考中..."):
-                try:
-                    # 直接生成回應，因為 API 已經包含 RAG 和 prompt
-                    response = st.session_state.watsonx.generate_response("", prompt)
-                    
-                    if response:
-                        st.markdown(response)
-                        st.session_state.messages.append({"role": "assistant", "content": response})
-                    else:
-                        default_response = "抱歉，我暫時無法處理您的請求。請稍後再試。"
-                        st.markdown(default_response)
-                        st.session_state.messages.append({"role": "assistant", "content": default_response})
-                        
-                except Exception as e:
-                    error_msg = f"處理請求時出錯: {str(e)}"
-                    st.error(error_msg)
-                    st.session_state.messages.append({"role": "assistant", "content": error_msg})
+            # 創建一個空的容器來放置即時更新的文字
+            message_placeholder = st.empty()
+            
+            try:
+                # 使用 streaming 生成回應
+                full_response = ""
+                
+                for response_chunk in st.session_state.chat_setting.generate_response_stream(prompt):
+                    full_response = response_chunk
+                    # 即時更新顯示的內容
+                    message_placeholder.markdown(full_response + "▌")  # 加上游標效果
+                
+                # 移除游標，顯示最終結果
+                message_placeholder.markdown(full_response)
+                
+                # 儲存完整回應到對話歷史
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+            except Exception as e:
+                error_msg = f"處理請求時出錯: {str(e)}"
+                message_placeholder.markdown(error_msg)
+                st.session_state.messages.append({"role": "assistant", "content": error_msg})
