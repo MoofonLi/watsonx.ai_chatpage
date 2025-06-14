@@ -10,19 +10,13 @@ load_dotenv()
 class ChatSetting:
     def __init__(self):
         self.api_key = os.getenv("WATSONX_API_KEY")
-        self.deployment_id = os.getenv("LLM_DEPLOYMENT_ID")
-        
-        if not self.api_key or not self.deployment_id:
-            raise ValueError("Missing WATSONX_API_KEY or LLM_DEPLOYMENT_ID")
+        self.api_url = os.getenv("LLM_API_URL")
         
         # 初始化 IAM Authenticator
         self.authenticator = IAMAuthenticator(
             apikey=self.api_key,
             url='https://iam.cloud.ibm.com/identity/token'
         )
-        
-        # API URL
-        self.api_url = f"https://eu-de.ml.cloud.ibm.com/ml/v4/deployments/{self.deployment_id}/ai_service_stream?version=2021-05-01"
             
     def _get_headers(self):
         """獲取包含認證 token 的 headers"""

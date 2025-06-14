@@ -1,5 +1,5 @@
 ##  Overview
-This is a Streamlit-based chat application that integrates with IBM Watson X.ai LLM services.
+This is a Streamlit-based chat application that integrates with IBM watsonx.ai LLM services.
 ### Environment Setup (Please download Python 3.11 first)
 #### Mac
 ```bash
@@ -25,4 +25,4 @@ streamlit run app.py
 ### Environment Configuration
 The application requires these environment variables (see .env_template):
 - `WATSONX_API_KEY`: IBM Cloud API key for authentication
-- `LLM_API_URL`: Watson X.ai deployment endpoint URL for streaming chat completion
+- `LLM_API_URL`: watsonx.ai deployment endpoint URL for streaming chat completion
