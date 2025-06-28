@@ -9,13 +9,7 @@ def main():
         initial_sidebar_state="expanded"
     )
 
-    # 初始化 WatsonX Client
-    if 'watsonx_client' not in st.session_state:
-        try:
-            st.session_state.chat_setting = ChatSetting()
-        except Exception as e:
-            st.error(f"無法初始化 WatsonX Client: {str(e)}")
-            return
+    st.session_state.chat_setting = ChatSetting()
 
     # 呼叫頁面
     chat_page()
