@@ -6,3 +6,4 @@ config.py
 apikey.json
 CLAUDE.md
 __pycache__
+.DS_Store
