@@ -32,19 +32,6 @@ class ChatSetting:
             st.error(f"Failed to get authentication token: {str(e)}")
             return None
     
-    def generate_response(self, user_message: str) -> str:
-        """生成完整回應（非串流）"""
-        try:
-            # 使用串流方法但收集完整結果
-            full_response = ""
-            for response_chunk in self.generate_response_stream(user_message):
-                full_response = response_chunk
-            
-            return full_response
-            
-        except Exception as e:
-            st.error(f"Error generating response: {str(e)}")
-            return "抱歉，處理您的請求時出現錯誤。"
 
     def generate_response_stream(self, user_message: str):
         """生成串流回應 - 返回生成器供 Streamlit 即時顯示"""
